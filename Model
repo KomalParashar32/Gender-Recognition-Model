@@ -1,0 +1,75 @@
+from keras.layers import Conv2D, MaxPooling2D, ZeroPadding2D
+from keras.layers import Dense, Activation, Dropout, Flatten
+from keras import optimizers
+from keras.models import Sequential
+from keras.preprocessing.image import ImageDataGenerator
+import numpy as np 
+import glob
+import shutil
+import os
+
+file_names=[]
+number_of_folders_of_each_gender=125
+number_of_img_per_folder=100
+
+os.chdir("C:/Users/Avanish/Desktop/test")
+file_names=glob.glob("*")
+
+males=file_names[:number_of_folders_of_each_gender-5];
+females=file_names[number_of_folders_of_each_gender:2*number_of_folders_of_each_gender-5];
+
+males_val=file_names[120:125];
+females_val=file_names[145:150]
+
+
+%cd C:/Users/Avanish/Desktop
+img_list_males=[];
+img_list_females=[];
+
+img_list_males_val=[];
+img_list_females_val=[];
+
+for i in range(1,len(males)):
+    %cd C:/Users/Avanish/Desktop
+    os.chdir("test/"+males[i])
+    img=glob.glob("*.jpg")
+    img=img[:number_of_img_per_folder]
+    for j in range(len(img)):
+        img_list_males.append("test/"+males[i]+"/"+img[j])
+        
+for i in range(len(females)):
+    %cd C:/Users/Avanish/Desktop
+    os.chdir("test/"+females[i])
+    img=glob.glob("*.jpg")
+    img=img[:number_of_img_per_folder]
+    for j in range(len(img)):
+        img_list_females.append("test/"+females[i]+"/"+img[j])
+    
+for i in range(len(males_val)):
+    %cd C:/Users/Avanish/Desktop
+    os.chdir("./test/"+males_val[i])
+    img=glob.glob("*.jpg")
+    img=img[:number_of_img_per_folder]
+    for j in range(len(img)):
+        img_list_males_val.append("test/"+males_val[i]+"/"+img[j])
+        
+for i in range(len(females_val)):
+    %cd C:/Users/Avanish/Desktop
+    os.chdir("test/"+females_val[i])
+    img=glob.glob("*.jpg")
+    img=img[:number_of_img_per_folder]
+    for j in range(len(img)):
+        img_list_females_val.append("test/"+females_val[i]+"/"+img[j])
+        
+%cd C:/Users/Avanish/Desktop
+for i in range(len(img_list_males)):
+    shutil.copy(img_list_males[i],'data\\train\\male')
+
+for i in range(len(img_list_females)):
+    shutil.copy(img_list_females[i],'data\\train\\female')
+
+for i in range(len(img_list_males_val)):
+    shutil.copy(img_list_males_val[i],'data\\validation\\male')
+
+for i in range(len(img_list_females)):
+    shutil.copy(img_list_females_val[i],'data\\validation\\female')
